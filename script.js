@@ -51,8 +51,8 @@ async function call(){
                 let Alert=document.getElementsByClassName('alert')
                 //Already we r in ForEach loop Its has the INDEX with that we pick Exact Alert DIV
                 Alert[index].classList.replace('d-none','d-block')
-                Alert[index].firstElementChild.innerHTML=`Temperature is ${temp}`
-                Alert[index].lastElementChild.innerHTML=`Humidity is ${humi}`
+                Alert[index].firstElementChild.innerHTML=`Temperature is : ${temp}`
+                Alert[index].lastElementChild.innerHTML=`Humidity is : ${humi}`
 
                 // After 5sec The Alert will removed
                 setTimeout(()=>{
