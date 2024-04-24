@@ -19,7 +19,7 @@ async function call(){
 
       //Parent element to add the created child card
        let parent = document.getElementById('main')
-      data.forEach(element => {
+      data.forEach((element,index) => {
 
           //This is the child div In that we have all the content
            let child=document.createElement('div')
@@ -31,20 +31,40 @@ async function call(){
            <h6>Capital : <span>${element.capital}</span></h6>
            <h6>Region : <span>${element.region}</span></h6>
            <h6>Country code : <span>${element.cca3}</span></h6>
+           <h6>LatLng : <span>${element.latlng[0]+" , "+element.latlng[1]}</span></h6>
+           
+           <div class="alert alert-dark d-none mt-4" role="alert">
+            <li class="list-unstyled"></li>
+            <li class="list-unstyled"></li>
+          </div>
            </div>
            </div>`
 
-           child.classList.add('col-lg-4','col-sm-12','mt-5')
+           child.classList.add('col-lg-4','col-sm-12','mt-5','mainclass')
            parent.appendChild(child)
            //Create one Button Element To Trigger weather API
            let Btn=document.createElement('button')
            Btn.innerText="Show Weather"
            //Add event to BTN to fire weatherAPI() when user hit the BTN
            Btn.addEventListener('click',function(){
-             weatherAPI(element.name.common)
+             // Here we send Country name ans one callBack function to return the Weather
+             weatherAPI(element.name.common,(temp,humi)=>{
+                //Capture the Alerty Div to add data It return an HTML collection
+                let Alert=document.getElementsByClassName('alert')
+                //Already we r in ForEach loop Its has the INDEX with that we pick Exact Alert DIV
+                Alert[index].classList.replace('d-none','d-block')
+                Alert[index].firstElementChild.innerHTML=`Temperature is ${temp}`
+                Alert[index].lastElementChild.innerHTML=`Humidity is ${humi}`
+
+                // After 5sec The Alert will removed
+                setTimeout(()=>{
+                    Alert[index].classList.replace('d-block','d-none')
+                },5000)
+               
+             })
             })
            //BTN styles 
-           Btn.classList.add('btn','mb-4','btn-primary','mx-5')
+           Btn.classList.add('btn','mb-4','mx-5','border','border-1','border-light','text-light')
            //Finally Add the BTN to the last Child
            child.lastElementChild.appendChild(Btn)
            
@@ -59,12 +79,14 @@ async function call(){
 
 call()
 // Function to capture Weather when user Click Check Weather BTN
-async function weatherAPI(value){
+async function weatherAPI(value,callback){
     
     let apiKey='782a08a4b55d9919749012611d329250'  
     let data=await fetch(`https://api.openweathermap.org/data/2.5/weather?units=Metric&q=${value}&appid=${apiKey}`)
     let repo =await data.json()
-    let Temperature=repo.main.temp+"°C" 
-
-    alert(`Temperature in ${value} is ${Temperature}`)
+    
+    let Temperature=repo.main.temp+"°C"
+    let humidity =repo.main.humidity
+    //Invoke this callBack send Temperature as argument 
+    callback(Temperature,humidity)  
 }
