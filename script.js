@@ -42,7 +42,7 @@ async function call(){
            parent.appendChild(child)
            //Create one Button Element To Trigger weather API
            let Btn=document.createElement('button')
-           Btn.innerText="Show Weather"
+           Btn.innerText="Click for Weather"
            //Add event to BTN to fire weatherAPI() when user hit the BTN
            Btn.addEventListener('click',function(){
              // Here we send Country name and one callBack function to return the Weather Datas
