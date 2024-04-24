@@ -1,5 +1,6 @@
+//This Promise will Resolve the Restcountry API
 let promise =new Promise((resolve,reject)=>{
-     
+ 
     let url="https://restcountries.com/v3.1/all"
     fetch(url)
     .then((response)=>{return response.json()
@@ -7,9 +8,6 @@ let promise =new Promise((resolve,reject)=>{
    })
     .then((data)=>{resolve(data)})
     .catch((err)=>{reject(err)})
-  
-
-
 })
 
 async function call(){
@@ -47,7 +45,7 @@ async function call(){
            Btn.innerText="Show Weather"
            //Add event to BTN to fire weatherAPI() when user hit the BTN
            Btn.addEventListener('click',function(){
-             // Here we send Country name ans one callBack function to return the Weather
+             // Here we send Country name and one callBack function to return the Weather Datas
              weatherAPI(element.name.common,(temp,humi)=>{
                 //Capture the Alerty Div to add data It return an HTML collection
                 let Alert=document.getElementsByClassName('alert')
@@ -76,8 +74,8 @@ async function call(){
     
 
 }
-
-call()
+//When Browser loaded It will call this function to fetch the Country details 
+  call()
 // Function to capture Weather when user Click Check Weather BTN
 async function weatherAPI(value,callback){
     
